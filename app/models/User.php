@@ -123,6 +123,9 @@ class User {
             $_SESSION['auth'] = 1;
             $_SESSION['username'] = ucwords($username);
             $_SESSION['userid'] = $user['id']; 
+            // add role to session
+            $_SESSION['role'] = $user['role'];
+
 
             unset($_SESSION['failedAuth'], $_SESSION['lockout']);
             $_SESSION['toast_success'] = "Welcome back, " . ucwords($username) . "!";
