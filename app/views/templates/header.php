@@ -43,8 +43,13 @@
           <li><a href="/home">Home</a></li>
           <li><a href="/home/about">About Me</a></li>
            <li><a href="/reminders">Reminders</a></li> 
-          <li><a href="/reminders/reports">Reports</a></li> 
+            
           <li><a href="/home/portfolio">Portfolio</a></li>
+          <!-- add admin only menu  -->
+          <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <li><a href="/reminders/reports">Reports</a></li>
+          <?php endif; ?>
+
           
         </ul>
       </div>
@@ -56,8 +61,12 @@
         <li><a href="/home">Home</a></li>
         <li><a href="/home/about">About Me</a></li>
         <li><a href="/reminders">Reminders</a></li>     
-        <li><a href="/reminders/reports">Reports</a></li> 
+
         <li><a href="/home/portfolio">Portfolio</a></li>
+        <!-- add admin only menu  -->
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+          <li><a href="/reminders/reports">Reports</a></li>
+        <?php endif; ?>>
       </ul>
     </div>
 
