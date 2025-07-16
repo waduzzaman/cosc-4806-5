@@ -118,6 +118,16 @@ class Reminders extends Controller {
     exit;
     exit;
   }
+// helper function to check if the user is an admin
+  private function requireAdmin() {
+      if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+          $_SESSION['flash_message'] = "Admins only.";
+          $_SESSION['flash_color'] = "linear-gradient(to right, #ef4444, #b91c1c)";
+          header('Location: /reminders');
+          exit;
+      }
+  }
+
 
   public function reports() {
     $this->requireLogin();
