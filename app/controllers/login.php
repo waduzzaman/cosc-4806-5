@@ -20,8 +20,12 @@ class Login extends Controller
 						$_SESSION['auth'] = true;
 						$_SESSION['username'] = $user['username'];
 						$_SESSION['userid'] = $user['id'];
+					
 
 						$_SESSION['toast_success'] = "Login successful!";
+					// After successful login
+					$_SESSION['role'] = $user['role']; 
+
 						header('Location: /home');
 						exit;
 				} else {
