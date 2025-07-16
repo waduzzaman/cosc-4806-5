@@ -99,7 +99,9 @@ class Reminders extends Controller {
 
     $_SESSION['flash_message'] = "Reminder deleted!";
     $_SESSION['flash_color'] = "linear-gradient(to right, #f87171, #ef4444)";
-    header('Location: /reminders');
+    // header('Location: /reminders');
+    // exit;
+    header('Location: /reminders');echo '<script>window.location.href="/reminders";</script>'; 
     exit;
   }
 
