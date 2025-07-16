@@ -2,8 +2,6 @@
 
 class Reminder {
 
-
-
     public function __construct() {
         // Optional initialization
     }
@@ -23,20 +21,17 @@ class Reminder {
         $statement->execute([$id]);
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
-        // create reminder
-            // public function create_reminder($subject, $user_id) {
-            // $db = db_connect();
-            // $stmt = $db->prepare("INSERT INTO reminders (subject, user_id) VALUES (?,                ?)");
-            // return $stmt->execute([$subject, $user_id]);
-            // }
-
     public function create_reminder($subject, $user_id) {
         $db = db_connect();
-        $stmt = $db->prepare("INSERT INTO reminders (subject, user_id) VALUES (:subject, :user_id)");
-        $stmt->bindValue(':subject', $subject);
-        $stmt->bindValue(':user_id', $user_id);
-        return $stmt->execute();
+        $stmt = $db->prepare("INSERT INTO reminders (subject, user_id) VALUES (?, ?)");
+
+        if (!$stmt->execute([$subject, $user_id])) {
+            print_r($stmt->errorInfo());
+            die("Failed to insert reminder.");
+        }
+        return true;
     }
+
     
     // udpate reminder    
         public function update_reminder($id, $subject) {
@@ -59,30 +54,6 @@ class Reminder {
             $stmt = $db->prepare("UPDATE reminders SET completed = 1 WHERE id = ?");
             return $stmt->execute([$id]);
         }
-
-    // 
-
-    public function get_reminders_with_usernames() {
-      $db = db_connect();
-      $stmt = $db->prepare("
-        SELECT r.*, u.username, u.name 
-        FROM reminders r 
-        JOIN users u ON r.user_id = u.id
-        ORDER BY u.username, r.created_at DESC
-      ");
-      $stmt->execute();
-      $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-      // Group reminders by username
-      $grouped = [];
-      foreach ($rows as $row) {
-        $grouped[$row['username']][] = $row;
-      }
-      return $grouped;
-    }
-
-
-
         
     
 

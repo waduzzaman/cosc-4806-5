@@ -122,7 +122,7 @@ class User {
 
             $_SESSION['auth'] = 1;
             $_SESSION['username'] = ucwords($username);
-            $_SESSION['userid'] = $user['userid']; // fix from $rows['userid']
+            $_SESSION['userid'] = $user['id']; 
 
             unset($_SESSION['failedAuth'], $_SESSION['lockout']);
             $_SESSION['toast_success'] = "Welcome back, " . ucwords($username) . "!";
