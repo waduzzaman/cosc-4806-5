@@ -73,6 +73,14 @@ class Reminders extends Controller {
     exit;
   }
 
+  public function reports() {
+    $R = $this->model('Reminder');
+    $reminders_by_user = $R->get_reminders_with_usernames();
+
+    $this->view('reminders/reports', ['grouped' => $reminders_by_user]);
+  }
+
+
   
   
 }
