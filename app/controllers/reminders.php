@@ -128,13 +128,17 @@ class Reminders extends Controller {
       }
   }
 
-
+  // report function: 
   public function reports() {
-    $this->requireLogin();
+      $this->requireLogin();
+      $this->requireAdmin(); //  Only for admin users
 
-    $R = $this->model('Reminder');
-    $grouped = $R->get_reminders_with_usernames();
-
-    $this->view('reminders/reports', ['grouped' => $grouped]);
+      $R = $this->model('Reminder');
+      $reminders_by_user = $R->get_reminders_with_usernames();
+      $this->view('reminders/reports', ['grouped' => $reminders_by_user]);
   }
+
+
+
+  
 }
