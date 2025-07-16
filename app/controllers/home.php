@@ -24,8 +24,6 @@ class Home extends Controller {
         die;
     }
 
-     // route to reminder page
-
     public function reminder() {
         $this->view('home/reminder');
         die;

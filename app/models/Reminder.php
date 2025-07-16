@@ -65,9 +65,9 @@ class Reminder {
     public function get_reminders_with_usernames() {
       $db = db_connect();
       $stmt = $db->prepare("
-        SELECT r.*, u.username 
+        SELECT r.*, u.username, u.name 
         FROM reminders r 
-        JOIN users u ON r.user_id = u.userid 
+        JOIN users u ON r.user_id = u.id
         ORDER BY u.username, r.created_at DESC
       ");
       $stmt->execute();
@@ -80,6 +80,8 @@ class Reminder {
       }
       return $grouped;
     }
+
+
 
         
     
