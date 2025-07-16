@@ -59,6 +59,28 @@ class Reminder {
             $stmt = $db->prepare("UPDATE reminders SET completed = 1 WHERE id = ?");
             return $stmt->execute([$id]);
         }
+
+    // 
+
+    public function get_reminders_with_usernames() {
+      $db = db_connect();
+      $stmt = $db->prepare("
+        SELECT r.*, u.username 
+        FROM reminders r 
+        JOIN users u ON r.user_id = u.userid 
+        ORDER BY u.username, r.created_at DESC
+      ");
+      $stmt->execute();
+      $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+      // Group reminders by username
+      $grouped = [];
+      foreach ($rows as $row) {
+        $grouped[$row['username']][] = $row;
+      }
+      return $grouped;
+    }
+
         
     
 
