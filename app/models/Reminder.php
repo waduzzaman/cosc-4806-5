@@ -54,7 +54,8 @@ class Reminder {
             $stmt = $db->prepare("UPDATE reminders SET completed = 1 WHERE id = ?");
             return $stmt->execute([$id]);
         }
-        
+
+
     
 
  
