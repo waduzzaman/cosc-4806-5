@@ -55,6 +55,19 @@ class Reminder {
             return $stmt->execute([$id]);
         }
 
+    public function get_all_reminders_with_users() {
+        $db = db_connect();
+        $stmt = $db->prepare("
+            SELECT reminders.*, users.username 
+            FROM reminders 
+            JOIN users ON reminders.user_id = users.id
+            ORDER BY reminders.date DESC
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 
     
 
