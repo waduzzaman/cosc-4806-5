@@ -55,28 +55,7 @@ class Reminder {
             return $stmt->execute([$id]);
         }
 
-    // public function get_all_reminders_with_users() {
-    //     $db = db_connect();
-    //     $stmt = $db->prepare("
-    //         SELECT reminders.*, users.username 
-    //         FROM reminders 
-    //         JOIN users ON reminders.user_id = users.id
-    //         ORDER BY reminders.date DESC
-    //     ");
-    //     $stmt->execute();
-    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // }
-
-    // public function get_all_reminders_with_users() {
-    //     $db = db_connect();
-    //     $sql = "SELECT reminders.*, users.name AS user_name 
-    //             FROM reminders 
-    //             JOIN users ON reminders.user_id = users.id";
-    //     $stmt = $db->prepare($sql);
-    //     $stmt->execute();
-    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // }
-
+   // get all reminders with users
 
     public function get_all_reminders_with_users() {
         $db = db_connect();
@@ -90,6 +69,36 @@ class Reminder {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    //  get user with most reminders
+
+        public function get_user_with_most_reminders() {
+            $db = db_connect();
+            $stmt = $db->prepare("
+                SELECT u.username, COUNT(r.id) as reminder_count 
+                FROM reminders r 
+                JOIN users u ON r.user_id = u.id 
+                GROUP BY u.username 
+                ORDER BY reminder_count DESC 
+                LIMIT 1
+            ");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+    // get login counts by user
+        public function get_login_counts_by_user() {
+            $db = db_connect();
+            $stmt = $db->prepare("
+                SELECT username, COUNT(*) as login_count 
+                FROM logins 
+                GROUP BY username
+            ");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
+
 
 
     

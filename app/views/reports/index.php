@@ -1,7 +1,4 @@
-<?php
-// Optional debug (comment out in production)
-// echo '<pre>'; print_r($allReminders); echo '</pre>';
-?>
+<?php require_once 'app/views/templates/header.php' ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,3 +52,5 @@
 
 </body>
 </html>
+
+<?php require_once 'app/views/templates/footer.php' ?>
