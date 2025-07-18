@@ -128,7 +128,7 @@ class Reminders extends Controller {
       }
   }
 
-  public function report()
+  public function reports()
   {
       if (!isset($_SESSION['user'])) {
           header('Location: ' . BASEURL . '/users/login');
@@ -144,6 +144,8 @@ class Reminders extends Controller {
       $allReminders = $reminderModel->get_all_reminders_with_users();
 
       $this->view('reminders/reports', ['allReminders' => $allReminders]);
+
+    
   }
 
 
