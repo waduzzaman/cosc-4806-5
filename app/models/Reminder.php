@@ -67,13 +67,27 @@ class Reminder {
     //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
     // }
 
+    // public function get_all_reminders_with_users() {
+    //     $db = db_connect();
+    //     $sql = "SELECT reminders.*, users.name AS user_name 
+    //             FROM reminders 
+    //             JOIN users ON reminders.user_id = users.id";
+    //     $stmt = $db->prepare($sql);
+    //     $stmt->execute();
+    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // }
+
+
     public function get_all_reminders_with_users() {
         $db = db_connect();
-        $sql = "SELECT reminders.*, users.name AS user_name 
-                FROM reminders 
+
+        $sql = "SELECT reminders.*, users.username
+                FROM reminders
                 JOIN users ON reminders.user_id = users.id";
+
         $stmt = $db->prepare($sql);
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

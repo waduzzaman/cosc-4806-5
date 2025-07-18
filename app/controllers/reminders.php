@@ -127,27 +127,5 @@ class Reminders extends Controller {
           exit;
       }
   }
-
-  public function reports()
-  {
-      if (!isset($_SESSION['user'])) {
-          header('Location: ' . BASEURL . '/users/login');
-          exit;
-      }
-
-      if ($_SESSION['user']['role'] !== 'admin') {
-          echo "Access denied. Admins only.";
-          exit;
-      }
-
-      $reminderModel = $this->model('Reminder');
-      $allReminders = $reminderModel->get_all_reminders_with_users();
-
-      $this->view('reminders/reports', ['allReminders' => $allReminders]);
-
-    
-  }
-
-
   
 }

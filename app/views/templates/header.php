@@ -44,7 +44,7 @@
          <li><a href="/reminders">Reminders</a></li>
          <li><a href="/home/portfolio">Portfolio</a></li>
          <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-           <li><a href="/reminders/reports">Reports</a></li>
+           <li><a href="/reports">Reports</a></li>
          <?php endif; ?>
        </ul>
      </div>
@@ -58,7 +58,7 @@
        <li><a href="/reminders">Reminders</a></li>
        <li><a href="/home/portfolio">Portfolio</a></li>
        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-         <li><a href="/reminders/reports">Reports</a></li>
+         <li><a href="/reports">Reports</a></li>
        <?php endif; ?>
      </ul>
    </div>
