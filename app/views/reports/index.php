@@ -11,44 +11,111 @@
 </head>
 <body class="bg-gray-50 min-h-screen p-6">
 
-  <div class="max-w-7xl mx-auto">
-    <h1 class="text-3xl font-bold mb-6 text-center text-indigo-700">Admin Reports</h1>
+  <div class="max-w-7xl mx-auto p-6 bg-white shadow rounded mt-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">📊 Admin Reports Dashboard</h1>
 
-    <?php if (!empty($allReminders)): ?>
-      <div class="overflow-x-auto shadow-lg rounded-lg border border-gray-200 bg-white">
-        <table class="table w-full min-w-max table-auto">
-          <thead class="bg-indigo-600 text-white">
-            <tr>
-              <th class="p-3 text-left">ID</th>
-              <th class="p-3 text-left">Subject</th>
-              <th class="p-3 text-left">Created At</th>
-              <th class="p-3 text-left">User</th>
-              <th class="p-3 text-left">Completed</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($allReminders as $reminder): ?>
-              <tr class="border-b border-gray-200 hover:bg-indigo-50">
-                <td class="p-3"><?= htmlspecialchars($reminder['id']) ?></td>
-                <td class="p-3"><?= htmlspecialchars($reminder['subject']) ?></td>
-                <td class="p-3"><?= htmlspecialchars($reminder['created_at']) ?></td>
-                <td class="p-3"><?= htmlspecialchars($reminder['username']) ?></td>
-                <td class="p-3">
-                  <?php if ($reminder['completed']): ?>
-                    <span class="badge badge-success">Yes</span>
-                  <?php else: ?>
-                    <span class="badge badge-warning">No</span>
-                  <?php endif; ?>
-                </td>
+    <!-- Who has the most reminders -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold text-blue-700 mb-2">Top User by Reminders</h2>
+      <?php if (!empty($topUser)): ?>
+        <p class="text-gray-700">
+          <strong class="text-blue-600"><?= htmlspecialchars($topUser['username']) ?></strong>
+          has the most reminders (<?= $topUser['reminder_count'] ?>)
+        </p>
+      <?php else: ?>
+        <p class="text-red-500">No reminders found.</p>
+      <?php endif; ?>
+    </div>
+
+    <!-- Total logins by user -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold text-green-700 mb-2">Total Logins by User</h2>
+      <?php if (!empty($loginCounts)): ?>
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto border border-gray-200">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="px-4 py-2 text-left">Username</th>
+                <th class="px-4 py-2 text-left">Login Count</th>
               </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-    <?php else: ?>
-      <p class="text-center text-gray-600 mt-12 text-lg">No reminders found.</p>
-    <?php endif; ?>
+            </thead>
+            <tbody>
+              <?php foreach ($loginCounts as $row): ?>
+                <tr class="border-t">
+                  <td class="px-4 py-2"><?= htmlspecialchars($row['username']) ?></td>
+                  <td class="px-4 py-2"><?= htmlspecialchars($row['login_count']) ?></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      <?php else: ?>
+        <p class="text-red-500">No login data found.</p>
+      <?php endif; ?>
+    </div>
+
+    <!-- All Reminders -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold text-purple-700 mb-2">All Reminders</h2>
+      <?php if (!empty($allReminders)): ?>
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto border border-gray-200">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="px-4 py-2">ID</th>
+                <th class="px-4 py-2">Subject</th>
+                <th class="px-4 py-2">Created At</th>
+                <th class="px-4 py-2">User</th>
+                <th class="px-4 py-2">Completed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($allReminders as $reminder): ?>
+                <tr class="border-t">
+                  <td class="px-4 py-2"><?= htmlspecialchars($reminder['id']) ?></td>
+                  <td class="px-4 py-2"><?= htmlspecialchars($reminder['subject']) ?></td>
+                  <td class="px-4 py-2"><?= htmlspecialchars($reminder['created_at']) ?></td>
+                  <td class="px-4 py-2"><?= htmlspecialchars($reminder['username']) ?></td>
+                  <td class="px-4 py-2"><?= $reminder['completed'] ? '✅' : '❌' ?></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      <?php else: ?>
+        <p class="text-red-500">No reminders found.</p>
+      <?php endif; ?>
+    </div>
+
+    <!-- Chart.js Section -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold text-indigo-700 mb-2">Logins Chart</h2>
+      <canvas id="loginChart" width="400" height="200" class="bg-white border border-gray-200 rounded"></canvas>
+    </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('loginChart').getContext('2d');
+    const loginChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: <?= json_encode(array_column($loginCounts, 'username')) ?>,
+        datasets: [{
+          label: 'Login Count',
+          data: <?= json_encode(array_column($loginCounts, 'login_count')) ?>,
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
 
 </body>
 </html>

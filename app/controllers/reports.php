@@ -21,7 +21,7 @@ class Reports extends Controller {
         $R = $this->model('Reminder');
         $allReminders = $R->get_all_reminders_with_users();
 
-        // Uncomment to debug and confirm data:
+        // check whether the data is getting from the db:
         // echo "<pre>"; print_r($allReminders); echo "</pre>"; exit;
 
         $this->view('reports/index', ['allReminders' => $allReminders]);
